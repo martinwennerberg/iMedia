@@ -119,7 +119,9 @@
 {
 	NSBundle* coreTypes = [NSBundle	bundleWithPath:@"/System/Library/CoreServices/CoreTypes.bundle"];
 	NSString* path = [coreTypes pathForResource:@"ToolbarMovieFolderIcon.icns" ofType:nil];
-	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+    NSImage *image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+    [image setTemplate:YES];
+	return image;
 }
 
 

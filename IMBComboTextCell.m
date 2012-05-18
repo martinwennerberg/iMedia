@@ -107,8 +107,8 @@
 - (void) initTextAttributes
 {
 	NSMutableParagraphStyle* paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
-	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	
+	[paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+
 	NSColor* titleColor = [self textColor];
 	NSColor* metadataColor = [[self textColor] colorWithAlphaComponent:0.4];
 	

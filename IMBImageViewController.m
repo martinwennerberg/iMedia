@@ -127,7 +127,9 @@
 
 - (NSImage*) icon
 {
-	return [[NSWorkspace imb_threadSafeWorkspace] imb_iconForAppWithBundleIdentifier:@"com.apple.iPhoto"];
+    NSImage *image = [NSImage imageNamed:@"PicturesTemplate"];
+    [image setTemplate:YES];
+    return image;
 }
 
 - (NSString*) displayName

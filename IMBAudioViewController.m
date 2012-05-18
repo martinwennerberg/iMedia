@@ -146,7 +146,10 @@
 
 - (NSImage*) icon
 {
-	return [[NSWorkspace imb_threadSafeWorkspace] imb_iconForAppWithBundleIdentifier:@"com.apple.iTunes"];
+    NSImage *image = [[[NSImage imageNamed:@"volume_3"] copy] autorelease];
+    [image setTemplate:YES];
+    [image setSize:NSMakeSize(24, 24)];
+	return image;
 }
 
 - (NSString*) displayName
