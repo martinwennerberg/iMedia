@@ -75,8 +75,8 @@
 #import "IMBObjectThumbnailLoadOperation.h"
 #import "IMBQLPreviewPanel.h"
 #import <Carbon/Carbon.h>
-#import "IMBFlickrObject.h"
-#import "IMBFlickrNode.h"
+//#import "IMBFlickrObject.h"
+//#import "IMBFlickrNode.h"
 #import "NSFileManager+iMedia.h"
 #import "IMBButtonObject.h"
 

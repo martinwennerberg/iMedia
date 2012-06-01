@@ -61,7 +61,9 @@
 #import "IMBParser.h"
 #import "IMBNode.h"
 #import "IMBNodeCell.h"
+#ifdef ENABLE_FLICKR
 #import "IMBFlickrNode.h"
+#endif
 #import "NSView+iMedia.h"
 #import "NSFileManager+iMedia.h"
 
@@ -650,6 +652,7 @@ static NSString* kIMBSelectNodeWithIdentifierNotification = @"IMBSelectNodeWithI
 	
 	if ([node respondsToSelector:@selector(license)])
 	{
+#ifdef ENABLE_FLICKR
 		IMBFlickrNodeLicense license = [((IMBFlickrNode *)node) license];
 		if (license < IMBFlickrNodeLicense_Undefined) license = IMBFlickrNodeLicense_Undefined;
 		if (license > IMBFlickrNodeLicense_CommercialUse) license = IMBFlickrNodeLicense_CommercialUse;
@@ -668,6 +671,7 @@ static NSString* kIMBSelectNodeWithIdentifierNotification = @"IMBSelectNodeWithI
 		{
 			[cell setExtraImage:nil];
 		}
+#endif
 	}
 	else
 	{
