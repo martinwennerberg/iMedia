@@ -59,7 +59,7 @@
 #import <iMedia/IMBNode.h>
 #import <iMedia/IMBObject.h>
 #import <iMedia/IMBObjectsPromise.h>
-//#import <iMedia/IMBFlickrNode.h>
+#import <iMedia/IMBFlickrNode.h>
 
 // Parsers...
 
@@ -71,7 +71,7 @@
 #import <iMedia/IMBApertureParser.h>
 #import <iMedia/IMBLightroomParser.h>
 #import <iMedia/IMBImageCaptureParser.h>
-//#import <iMedia/IMBFlickrParser.h>
+#import <iMedia/IMBFlickrParser.h>
 #import <iMedia/IMBGarageBandParser.h>
 
 // Controllers...

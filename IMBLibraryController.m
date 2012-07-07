@@ -243,7 +243,7 @@ static NSMutableDictionary* sLibraryControllers = nil;
 	[parser willUseParser];
 	IMBNode* newNode = [parser nodeWithOldNode:self.oldNode options:self.options error:&error];
     self.replacementNode = newNode;
-    
+	
 	if (newNode)
 	{
 		[self performSelectorOnMainThread:@selector(_didCreateNode:) withObject:newNode];
@@ -259,7 +259,7 @@ static NSMutableDictionary* sLibraryControllers = nil;
 		if (error != nil)
 		{
 			[self performSelectorOnMainThread:@selector(_presentError:) withObject:error];
-            
+
 			// If we failed then the _oldNode is still good but needs to have its status updated 
 			self.oldNode.badgeTypeNormal = kIMBBadgeTypeNone;
 		}
