@@ -2491,8 +2491,8 @@ NSString* const IMBObjectViewControllerSegmentedControlKey = @"SegmentedControl"
 
 	if (view)
 	{
-		frame = [view convertRectToBase:frame];
-		frame.origin = [view.window convertBaseToScreen:frame.origin];
+		frame = [view convertRect:frame toView:nil];
+		frame = [view.window convertRectToScreen:frame];
 	}
 
 	return frame;
