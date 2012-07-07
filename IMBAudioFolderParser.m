@@ -59,6 +59,7 @@
 #import "NSString+iMedia.h"
 #import "NSURL+iMedia.h"
 #import "NSWorkspace+iMedia.h"
+#import "IMBSandboxUtilities.h"
 #import "IMBNode.h"
 
 
@@ -161,10 +162,10 @@
 	if (comment && ![comment isEqualToString:@""])
 	{
 		NSString* commentLabel = NSLocalizedStringWithDefaultValue(
-																   @"Comment",
-																   nil,IMBBundle(),
-																   @"Comment",
-																   @"Comment label in metadataDescription");
+            @"Comment",
+            nil,IMBBundle(),
+            @"Comment",
+            @"Comment label in metadataDescription");
 		
 		if (description.length > 0) [description imb_appendNewline];
 		[description appendFormat:@"%@: %@",commentLabel,comment];
@@ -200,7 +201,11 @@
 {
 	if (self = [super initWithMediaType:inMediaType])
 	{
-		self.mediaSource = [NSHomeDirectory() stringByAppendingPathComponent:@"Music"];
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        NSURL *source = [fileManager URLForDirectory:NSMusicDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:NULL];
+        self.mediaSource = [source path];
+		[fileManager release];
+        
 		self.displayPriority = 1;
 	}
 	
@@ -283,6 +288,9 @@
 
 + (id) folderPath
 {
+    // Give up when sandboxed; Apple will never want us to poke around inside another app's bundle
+    if (IMBIsSandboxed()) return nil;
+    
 	NSString* path = [[NSWorkspace imb_threadSafeWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.iMovie"];
 	return [path stringByAppendingPathComponent:@"/Contents/Resources/Sound Effects"];
 }
@@ -337,13 +345,10 @@
 {
 	if (self = [super initWithMediaType:inMediaType])
 	{
-		NSArray *libraryPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-		
-		if ([libraryPaths count] > 0)
-		{
-			NSString *libraryPath = [libraryPaths objectAtIndex:0];
-			self.mediaSource = [libraryPath stringByAppendingPathComponent:@"Sounds"];
-		}	
+		NSFileManager *fileManager = [[NSFileManager alloc] init];
+        NSURL *source = [fileManager URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:NULL];
+        self.mediaSource = [[source URLByAppendingPathComponent:@"Sounds"] path];
+		[fileManager release];
 	}
 	
 	return self;

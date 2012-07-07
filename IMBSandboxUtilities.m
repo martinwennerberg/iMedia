@@ -1,7 +1,7 @@
 /*
  iMedia Browser Framework <http://karelia.com/imedia/>
  
- Copyright (c) 2005-2012 by Karelia Software et al.
+ Copyright (c) 2005-2011 by Karelia Software et al.
  
  iMedia Browser is based on code originally developed by Jason Terhorst,
  further developed for Sandvox by Greg Hulands, Dan Wood, and Terrence Talbot.
@@ -21,7 +21,7 @@
  
 	Redistributions of source code must retain the original terms stated here,
 	including this list of conditions, the disclaimer noted below, and the
-	following copyright notice: Copyright (c) 2005-2012 by Karelia Software et al.
+	following copyright notice: Copyright (c) 2005-2011 by Karelia Software et al.
  
 	Redistributions in binary form must include, in an end-user-visible manner,
 	e.g., About window, Acknowledgments window, or similar, either a) the original
@@ -41,40 +41,45 @@
  LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
  CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH, THE
  SOFTWARE OR THE USE OF, OR OTHER DEALINGS IN, THE SOFTWARE.
-*/
+ */
 
 
-// Author: Peter Baumgartner
+// Author: Peter Baumgartner, Mike Abdullah
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+#import "IMBSandboxUtilities.h"
+
+#include <pwd.h>
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-#pragma mark HEADERS
-
-#import "IMBParser.h"
+#pragma mark
 
 
-//----------------------------------------------------------------------------------------------------------------------
+// Replacement function for NSHomeDirectory...
 
-// SANDBOXING: Requires read-only temporary entitlement, relative to home directory for:
-//  * /Library/Containers/com.apple.Safari/Data/Library/Safari/Bookmarks.plist
-//  * /Library/Safari/Bookmarks.plist
-
-@interface IMBSafariBookmarkParser : IMBParser 
+NSURL* IMBHomeDirectoryURL()
 {
-	NSString* _appPath;
-	NSDictionary* _plist;
-	NSDate* _modificationDate;
-	NSMutableDictionary* _safariFaviconCache;
+    const char *home = getpwuid(getuid())->pw_dir;
+    NSString *path = [[NSString alloc] initWithUTF8String:home];
+    NSURL *result = [NSURL fileURLWithPath:path isDirectory:YES];
+    [path release];
+    return result;
 }
 
-@property (retain) NSString* appPath;
-@property (retain) NSDictionary* plist;
-@property (retain) NSDate* modificationDate;
-@property (retain) NSMutableDictionary* safariFaviconCache;
-
-@end
-
 
 //----------------------------------------------------------------------------------------------------------------------
+
+
+BOOL IMBIsSandboxed()
+{
+    NSString *home = NSHomeDirectory();
+    NSURL *realHome = IMBHomeDirectoryURL();
+    return ![[home stringByStandardizingPath] isEqualToString:[realHome path]];
+}
+
